@@ -17,7 +17,7 @@
         android:text="Hello World!" />
 
     <com.eftimoff.androipathview.PathView
-        android:id="@+id/pathView"
+        android:id="@+id/pathView1"
         android:layout_width="350dp"
         android:layout_height="350dp"
         app:pathColor="@android:color/black"
@@ -25,15 +25,40 @@
         app:svg="@raw/line01" />
 
     <com.eftimoff.androipathview.PathView
-        android:id="@+id/eraseView"
+        android:id="@+id/pathView2"
         android:layout_width="350dp"
         android:layout_height="350dp"
-        app:pathColor="@android:color/white"
-        app:pathWidth="10dp"
-        app:svg="@raw/line01w" />
+        app:pathColor="@android:color/black"
+        app:pathWidth="2dp"
+        app:svg="@raw/line02" />
+
+    <com.eftimoff.androipathview.PathView
+        android:id="@+id/pathView3"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        app:pathColor="@android:color/black"
+        app:pathWidth="2dp"
+        app:svg="@raw/line03" />
+
+
+    <com.eftimoff.androipathview.PathView
+        android:id="@+id/pathView4"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        app:pathColor="@android:color/black"
+        app:pathWidth="2dp"
+        app:svg="@raw/line04" />
+
+    <com.eftimoff.androipathview.PathView
+        android:id="@+id/pathView5"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        app:pathColor="@android:color/black"
+        app:pathWidth="2dp"
+        app:svg="@raw/line05" />
 
     <Button
-        android:layout_below="@id/pathView"
+        android:layout_below="@id/pathView1"
         android:id="@+id/btn_stop"
         android:text="stop"
         android:layout_width="match_parent"

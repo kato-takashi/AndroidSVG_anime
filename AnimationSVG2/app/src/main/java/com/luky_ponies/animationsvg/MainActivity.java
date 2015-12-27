@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.eftimoff.androipathview.PathView;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.LogRecord;
@@ -27,9 +29,14 @@ public class MainActivity extends AppCompatActivity {
     private Timer AnimeLoopTimer = null;
     private Handler AnimeLoopHandler = new Handler();
 
-    private PathView pathView;
-    private PathView eraseView;
+    private PathView pathView1;
+    private PathView pathView2;
+    private PathView pathView3;
+    private PathView pathView4;
+    private PathView pathView5;
+
     private DrawSVG drawSVG;
+    private ArrayList<PathView> pathViewArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +58,24 @@ public class MainActivity extends AppCompatActivity {
 
         Button stopBtn = (Button) findViewById(R.id.btn_stop);
         Button startBtn = (Button) findViewById(R.id.btn_start);
-        pathView = (PathView) findViewById(R.id.pathView);
-        eraseView = (PathView) findViewById(R.id.eraseView);
+        pathView1 = (PathView) findViewById(R.id.pathView1);
+        pathView2 = (PathView) findViewById(R.id.pathView2);
+        pathView3 = (PathView) findViewById(R.id.pathView3);
+        pathView4 = (PathView) findViewById(R.id.pathView4);
+        pathView5 = (PathView) findViewById(R.id.pathView5);
+
+
+        pathViewArrayList = new ArrayList<PathView>();
+        //pathViewArrayListに追加
+        pathViewArrayList.add(pathView1);
+        pathViewArrayList.add(pathView2);
+        pathViewArrayList.add(pathView3);
+        pathViewArrayList.add(pathView4);
+        pathViewArrayList.add(pathView5);
+        Log.d("配列のサイズ", String.valueOf(pathViewArrayList.size()));
+
+        //見た目を隠す
+        hidePathView(pathViewArrayList);
 
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 稼働中の場合は止める
-                if(null != AnimeLoopTimer){
+                if (null != AnimeLoopTimer) {
                     AnimeLoopTimer.cancel();
                     AnimeLoopTimer = null;
                 }
@@ -109,14 +132,24 @@ public class MainActivity extends AppCompatActivity {
 
     // タイマータスク用のクラス
     class AnimeLoopTask extends TimerTask{
-
         @Override
         public void run() {
             AnimeLoopHandler.post(new Runnable() {
                 public void run() {
-                    drawSVG.startEfect(pathView, eraseView);
+                    //Randomクラスのインスタンス化
+                    Random rnd = new Random();
+                    int ran = rnd.nextInt(pathViewArrayList.size());
+                    Log.d("乱数", String.valueOf(ran));
+                    pathViewArrayList.get(ran).setVisibility(View.VISIBLE);
+                    drawSVG.startEfect(pathViewArrayList.get(ran));
                 }
             });
+        }
+    }
+
+    private void hidePathView(ArrayList<PathView> pathViews){
+        for(int i = 0; i<pathViews.size(); i++){
+            pathViews.get(i).setVisibility(View.INVISIBLE);
         }
     }
 

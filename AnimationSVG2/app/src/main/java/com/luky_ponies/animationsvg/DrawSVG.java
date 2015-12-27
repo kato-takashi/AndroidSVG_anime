@@ -21,7 +21,7 @@ public class DrawSVG {
         this.context = context;
     }
 
-    public void startEfect(final PathView drawline, final PathView eraseline) {
+    public void startEfect(final PathView drawline) {
         drawline.getPathAnimator().
                 delay(0).
                 duration(DRAW_SPEED).
@@ -65,28 +65,5 @@ public class DrawSVG {
                 }).
                 interpolator(new AccelerateDecelerateInterpolator()).
                 start();
-
-//        eraseline.getPathAnimator().
-//                //pathView.getSequentialPathAnimator().
-//                        delay(1000).
-//                duration(2000).
-//                listenerStart(new PathView.AnimatorBuilder.ListenerStart() {
-//                    @Override
-//                    public void onAnimationStart() {
-//                        //Toast.makeText(MainActivity.this, "スタート", Toast.LENGTH_SHORT).show();
-//                        eraseline.setVisibility(View.VISIBLE);
-//                    }
-//                }).
-//                listenerEnd(new PathView.AnimatorBuilder.ListenerEnd() {
-//                    @Override
-//                    public void onAnimationEnd() {
-//                        Toast.makeText(context, "ストップ", Toast.LENGTH_SHORT).show();
-//                        drawline.setVisibility(View.GONE);
-//                        eraseline.setVisibility(View.GONE);
-//
-//                    }
-//                }).
-//                interpolator(new AccelerateDecelerateInterpolator()).
-//                start();
     }
 }
