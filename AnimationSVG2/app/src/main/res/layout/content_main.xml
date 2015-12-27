@@ -25,7 +25,7 @@
         app:svg="@raw/line01" />
 
     <com.eftimoff.androipathview.PathView
-        android:id="@+id/pathView2"
+        android:id="@+id/eraseView"
         android:layout_width="350dp"
         android:layout_height="350dp"
         app:pathColor="@android:color/white"

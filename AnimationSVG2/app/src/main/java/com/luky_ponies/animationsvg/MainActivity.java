@@ -23,13 +23,13 @@ import java.util.logging.LogRecord;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MyTimerTask timerTask = null;
-    private Timer timer = null;
-    private Handler handler = new Handler();
+    private AnimeLoopTask animeLoop = null;
+    private Timer AnimeLoopTimer = null;
+    private Handler AnimeLoopHandler = new Handler();
 
     private PathView pathView;
-    private PathView pathView2;
-
+    private PathView eraseView;
+    private DrawSVG drawSVG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +47,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        drawSVG = new DrawSVG(getApplicationContext());
 
         Button stopBtn = (Button) findViewById(R.id.btn_stop);
         Button startBtn = (Button) findViewById(R.id.btn_start);
         pathView = (PathView) findViewById(R.id.pathView);
-        pathView2 = (PathView) findViewById(R.id.pathView2);
+        eraseView = (PathView) findViewById(R.id.eraseView);
 
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 稼働中の場合は止める
-                if(null != timer){
+                if(null != AnimeLoopTimer){
                     // タイマーをキャンセル
-                    timer.cancel();
-                    timer = null;
+                    AnimeLoopTimer.cancel();
+                    AnimeLoopTimer = null;
                 }
             }
         });
@@ -69,95 +70,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 稼働中の場合は止める
-                if(null != timer){
-                    timer.cancel();
-                    timer = null;
+                if(null != AnimeLoopTimer){
+                    AnimeLoopTimer.cancel();
+                    AnimeLoopTimer = null;
                 }
-
                 // タイマーインスタンスを作成
-                timer = new Timer();
-
+                AnimeLoopTimer = new Timer();
                 // タイマータスクインスタンスを作成
-                timerTask = new MyTimerTask();
-
+                animeLoop = new AnimeLoopTask();
                 // タイマースケジュールを設定
-                timer.schedule(timerTask, 1000, 2000);
-
+                AnimeLoopTimer.schedule(animeLoop, 1000, 2000);
             }
         });
-////        pathView2.setVisibility(View.GONE);
-//
-//
-//
-////        pathView.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                pathView.getPathAnimator().
-////                        //pathView.getSequentialPathAnimator().
-////                                delay(100).
-////                        duration(1500).
-////                        interpolator(new AccelerateDecelerateInterpolator()).
-////                        start();
-////            }
-////        });
-//        pathView.getPathAnimator().
-//                //pathView.getSequentialPathAnimator().
-//                        delay(0).
-//                duration(1000).
-//                listenerStart(new PathView.AnimatorBuilder.ListenerStart() {
-//                    @Override
-//                    public void onAnimationStart() {
-//                        Toast.makeText(MainActivity.this, "スタート", Toast.LENGTH_SHORT).show();
-//                    }
-//                }).
-//                listenerEnd(new PathView.AnimatorBuilder.ListenerEnd() {
-//                    @Override
-//                    public void onAnimationEnd() {
-//                        Toast.makeText(MainActivity.this, "ストップ", Toast.LENGTH_SHORT).show();
-////                        final AlphaAnimation alpha = new AlphaAnimation(1, 0.0f); // 透明度を1から0.1に変化させる
-////                        alpha.setDuration(1000); // 3000msかけてアニメーションする
-////                        pathView.startAnimation(alpha); // アニメーション適用
-////                        pathView2.setVisibility(View.VISIBLE);
-////                        pathView2.getPathAnimator().
-////                                //pathView.getSequentialPathAnimator().
-////                                        delay(100).
-////                                duration(1500).
-////                                interpolator(new AccelerateDecelerateInterpolator()).
-////                                start();
-//
-//                    }
-//                }).
-//                interpolator(new AccelerateDecelerateInterpolator()).
-//                start();
-//
-//        pathView2.getPathAnimator().
-//                //pathView.getSequentialPathAnimator().
-//                        delay(1000).
-//                duration(3000).
-//                listenerStart(new PathView.AnimatorBuilder.ListenerStart() {
-//                    @Override
-//                    public void onAnimationStart() {
-//                        Toast.makeText(MainActivity.this, "スタート", Toast.LENGTH_SHORT).show();
-//                    }
-//                }).
-//                listenerEnd(new PathView.AnimatorBuilder.ListenerEnd() {
-//                    @Override
-//                    public void onAnimationEnd() {
-//                        Toast.makeText(MainActivity.this, "ストップ", Toast.LENGTH_SHORT).show();
-////                        pathView.setVisibility(View.GONE);
-////                        pathView2.setVisibility(View.GONE);
-//
-//                    }
-//                }).
-//                interpolator(new AccelerateDecelerateInterpolator()).
-//                start();
-//
-////        pathView.getSequentialPathAnimator().
-////                        delay(100).
-////                duration(1500).
-////
-////                interpolator(new AccelerateDecelerateInterpolator()).
-////                start();
     }
 
     @Override
@@ -182,76 +106,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void startEfect(PathView drawline, PathView eraseline){
-        drawline.getPathAnimator().
-                //pathView.getSequentialPathAnimator().
-                        delay(0).
-                duration(1000).
-                listenerStart(new PathView.AnimatorBuilder.ListenerStart() {
-                    @Override
-                    public void onAnimationStart() {
-//                        Toast.makeText(MainActivity.this, "スタート", Toast.LENGTH_SHORT).show();
-                    }
-                }).
-                listenerEnd(new PathView.AnimatorBuilder.ListenerEnd() {
-                    @Override
-                    public void onAnimationEnd() {
-//                        Toast.makeText(MainActivity.this, "ストップ", Toast.LENGTH_SHORT).show();
-//                        final AlphaAnimation alpha = new AlphaAnimation(1, 0.0f); // 透明度を1から0.1に変化させる
-//                        alpha.setDuration(1000); // 3000msかけてアニメーションする
-//                        pathView.startAnimation(alpha); // アニメーション適用
-//                        pathView2.setVisibility(View.VISIBLE);
-//                        pathView2.getPathAnimator().
-//                                //pathView.getSequentialPathAnimator().
-//                                        delay(100).
-//                                duration(1500).
-//                                interpolator(new AccelerateDecelerateInterpolator()).
-//                                start();
-
-                    }
-                }).
-                interpolator(new AccelerateDecelerateInterpolator()).
-                start();
-
-        eraseline.getPathAnimator().
-                //pathView.getSequentialPathAnimator().
-                        delay(1000).
-                duration(2000).
-                listenerStart(new PathView.AnimatorBuilder.ListenerStart() {
-                    @Override
-                    public void onAnimationStart() {
-                        Toast.makeText(MainActivity.this, "スタート", Toast.LENGTH_SHORT).show();
-                    }
-                }).
-                listenerEnd(new PathView.AnimatorBuilder.ListenerEnd() {
-                    @Override
-                    public void onAnimationEnd() {
-                        Toast.makeText(MainActivity.this, "ストップ", Toast.LENGTH_SHORT).show();
-//                        pathView.setVisibility(View.GONE);
-//                        pathView2.setVisibility(View.GONE);
-
-                    }
-                }).
-                interpolator(new AccelerateDecelerateInterpolator()).
-                start();
-
-//        pathView.getSequentialPathAnimator().
-//                        delay(100).
-//                duration(1500).
-//
-//                interpolator(new AccelerateDecelerateInterpolator()).
-//                start();
-    }
 
     // タイマータスク用のクラス
-    class MyTimerTask extends TimerTask{
+    class AnimeLoopTask extends TimerTask{
 
         @Override
         public void run() {
-            handler.post(new Runnable() {
+            AnimeLoopHandler.post(new Runnable() {
                 public void run() {
-
-                    startEfect(pathView, pathView2);
+                    drawSVG.startEfect(pathView, eraseView);
                 }
             });
         }
